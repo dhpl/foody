@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Foody</string>
+    <string name="dang_nhap_mat_khau">Mật khẩu</string>
+    <string name="dang_nhap_email">Email</string>
+    <string name="dang_nhap_button">Đăng nhập</string>
+    <string name="or">Hoặc</string>
+    <string name="facebook_app_id">1978354505781259</string>
+</resources>
