@@ -36,6 +36,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             @Override
             public void run() {
                 startActivity(DangNhapActivity.newIntent(SplashScreenActivity.this));
+                finish();
             }
         }, 2000);
     }

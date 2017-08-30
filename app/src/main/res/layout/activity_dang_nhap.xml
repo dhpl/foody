@@ -21,7 +21,7 @@
             android:layout_gravity="center"
             />
         <EditText
-            android:id="@+id/dang_nhap_email"
+            android:id="@+id/dang_nhap_email_edit_text"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:background="@drawable/background_button"
@@ -33,7 +33,7 @@
             android:drawablePadding="10dp"
             />
         <EditText
-            android:id="@+id/dang_nhap_mat_khau"
+            android:id="@+id/dang_nhap_mat_khau_edit_text"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginTop="20dp"
@@ -46,17 +46,19 @@
             android:drawableLeft="@drawable/ic_lock_outline"
             android:drawablePadding="10dp"
             />
+
         <Button
             android:id="@+id/dang_nhap_button"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginTop="20dp"
+            android:background="@drawable/background_button_dang_nhap"
             android:text="@string/dang_nhap_button"
             android:textAllCaps="false"
             android:textColor="@android:color/holo_red_dark"
-            android:background="@drawable/background_button_dang_nhap"
             android:textSize="18sp"
             />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -88,12 +90,14 @@
                 />
         </LinearLayout>
         <com.google.android.gms.common.SignInButton
+            android:id="@+id/dang_nhap_google_button"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginTop="20dp"
             android:textAlignment="center"
             />
         <com.facebook.login.widget.LoginButton
+            android:id="@+id/dang_nhap_facebook_button"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:paddingTop="20dp"
