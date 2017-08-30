@@ -10,4 +10,6 @@
     <string name="nhap_lai_mat_khau">Nhập lại mật khẩu</string>
     <string name="quen_mat_khau_button">Gửi</string>
     <string name="email_can_khoi_phuc">Email cần khôi phục</string>
+    <string name="o_dau">Ở đâu</string>
+    <string name="an_gi">Ăn gì</string>
 </resources>

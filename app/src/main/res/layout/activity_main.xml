@@ -1,10 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@android:color/darker_gray"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.philong.foody.controller.MainActivity">
-
-</android.support.constraint.ConstraintLayout>
+    android:orientation="vertical"
+    >
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        >
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/chuf"
+            android:layout_marginLeft="20dp"
+            />
+        <RadioGroup
+            android:id="@+id/main_radio_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:background="@drawable/custom_backgroud_radio_group"
+            >
+            <RadioButton
+                android:id="@+id/main_radio_o_dau"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/o_dau"
+                android:button="@android:color/transparent"
+                android:textSize="15sp"
+                android:background="@drawable/custom_radio_o_dau"
+                android:padding="10sp"
+                android:textColor="@drawable/change_text_radio"
+                />
+            <RadioButton
+                android:id="@+id/main_radio_an_gi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/an_gi"
+                android:button="@android:color/transparent"
+                android:textSize="15sp"
+                android:padding="10sp"
+                android:background="@drawable/custom_radio_an_gi"
+                android:textColor="@drawable/change_text_radio"
+                />
+        </RadioGroup>
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_add"
+            android:layout_gravity="right"
+            android:layout_marginRight="20dp"
+            />
+    </android.support.v7.widget.Toolbar>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/main_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+</LinearLayout>

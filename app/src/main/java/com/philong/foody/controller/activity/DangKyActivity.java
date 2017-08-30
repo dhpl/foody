@@ -1,4 +1,4 @@
-package com.philong.foody.controller;
+package com.philong.foody.controller.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +18,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.philong.foody.R;
+import com.philong.foody.model.ThanhVien;
 
 public class DangKyActivity extends AppCompatActivity{
 
@@ -72,6 +73,7 @@ public class DangKyActivity extends AppCompatActivity{
                                             mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
                                                 @Override
                                                 public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+
                                                     checkLogin(firebaseAuth);
                                                 }
                                             });
@@ -97,7 +99,10 @@ public class DangKyActivity extends AppCompatActivity{
     private void checkLogin(FirebaseAuth firebaseAuth){
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if(user != null){
-            Toast.makeText(this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
+            ThanhVien thanhVien = new ThanhVien();
+            thanhVien.setHoten(user.getEmail());
+            thanhVien.setHinhanh("user2.png");
+            thanhVien.themThanhVien(thanhVien, user.getUid());
             startActivity(DangNhapActivity.newIntent(this, mEmail, mMatKhau));
         }
     }

@@ -1,4 +1,4 @@
-package com.philong.foody.controller;
+package com.philong.foody.controller.activity;
 
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
