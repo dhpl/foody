@@ -26,6 +26,8 @@
         </activity>
         <activity android:name=".controller.MainActivity">
         </activity>
+        <activity android:name=".controller.DangKyActivity">
+        </activity>
     </application>
 
 </manifest>

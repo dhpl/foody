@@ -5,9 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -35,7 +38,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.philong.foody.R;
 
 public class DangNhapActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener
-        , View.OnClickListener, FirebaseAuth.AuthStateListener {
+        , View.OnClickListener {
 
     private static final int RC_SIGN_IN_GOOGLE = 99;
 
@@ -45,6 +48,13 @@ public class DangNhapActivity extends AppCompatActivity implements GoogleApiClie
     private Button mDangNhapEmail;
     private SignInButton mSignInButton;
     private LoginButton mLoginButton;
+    private TextView mDangKyTextView;
+    private TextView mQuenMatKhauTextView;
+    private EditText mEmailEditText;
+    private EditText mMatKhauEditText;
+
+    private String mEmail;
+    private String mMatKhau;
 
 
     private FirebaseAuth mAuth;
@@ -59,6 +69,13 @@ public class DangNhapActivity extends AppCompatActivity implements GoogleApiClie
         return intent;
     }
 
+    public static Intent newIntent(Context context, String email, String matKhau){
+        Intent intent = new Intent(context, DangNhapActivity.class);
+        intent.putExtra("Email", email);
+        intent.putExtra("MatKhau", matKhau);
+        return intent;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -69,6 +86,14 @@ public class DangNhapActivity extends AppCompatActivity implements GoogleApiClie
         mDangNhapEmail = (Button)findViewById(R.id.dang_nhap_button);
         mSignInButton = (SignInButton)findViewById(R.id.dang_nhap_google_button);
         mLoginButton = (LoginButton)findViewById(R.id.dang_nhap_facebook_button);
+        mDangNhapEmail = (Button)findViewById(R.id.dang_nhap_button);
+        mQuenMatKhauTextView = (TextView)findViewById(R.id.dang_nhap_quen_mat_khau_text_view);
+        mDangKyTextView = (TextView)findViewById(R.id.dang_nhap_dang_ky_text_view);
+        mEmailEditText = (EditText)findViewById(R.id.dang_nhap_email_edit_text);
+        mMatKhauEditText = (EditText)findViewById(R.id.dang_nhap_mat_khau_edit_text);
+        mDangNhapEmail.setOnClickListener(this);
+        mQuenMatKhauTextView.setOnClickListener(this);
+        mDangKyTextView.setOnClickListener(this);
         mSignInButton.setOnClickListener(this);
         mLoginButton.setOnClickListener(this);
         //Google
@@ -100,6 +125,12 @@ public class DangNhapActivity extends AppCompatActivity implements GoogleApiClie
 
             }
         });
+        if(getIntent() != null){
+            mEmail = getIntent().getStringExtra("Email");
+            mMatKhau = getIntent().getStringExtra("MatKhau");
+            mEmailEditText.setText(mEmail);
+            mMatKhauEditText.setText(mMatKhau);
+        }
         signOutGoogle();
         signOutFacebook();
     }
@@ -108,14 +139,8 @@ public class DangNhapActivity extends AppCompatActivity implements GoogleApiClie
     protected void onStart() {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        mAuth.addAuthStateListener(this);
-        //UpdateUI
-    }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        mAuth.removeAuthStateListener(this);
+        //UpdateUI
     }
 
     @Override
@@ -145,6 +170,38 @@ public class DangNhapActivity extends AppCompatActivity implements GoogleApiClie
         switch(id){
             case R.id.dang_nhap_google_button:
                 signInGoogle();
+                break;
+            case R.id.dang_nhap_button:
+                String email = mEmailEditText.getText().toString().trim();
+                String matKhau = mMatKhauEditText.getText().toString().trim();
+                if(TextUtils.isEmpty(email) || TextUtils.isEmpty(matKhau)){
+                    Toast.makeText(this, "Không được để trống", Toast.LENGTH_SHORT).show();
+                }else {
+                    mAuth.signInWithEmailAndPassword(email, matKhau)
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+                                            @Override
+                                            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                                                checkSignIn(firebaseAuth);
+                                            }
+                                        });
+                                    }else{
+                                        Toast.makeText(DangNhapActivity.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                }
+                break;
+            case R.id.dang_nhap_quen_mat_khau_text_view:
+                
+                break;
+            case R.id.dang_nhap_dang_ky_text_view:
+                startActivity(DangKyActivity.newIntent(this));
+                break;
+
         }
     }
 
@@ -178,8 +235,7 @@ public class DangNhapActivity extends AppCompatActivity implements GoogleApiClie
                 });
     }
 
-    @Override
-    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+    private void checkSignIn(FirebaseAuth firebaseAuth){
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if(user != null){
             Toast.makeText(this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
@@ -195,9 +251,14 @@ public class DangNhapActivity extends AppCompatActivity implements GoogleApiClie
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-
+                            mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+                                @Override
+                                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                                    checkSignIn(firebaseAuth);
+                                }
+                            });
                         }else{
-
+                            Toast.makeText(DangNhapActivity.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
