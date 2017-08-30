@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/backgrounddangnhap"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:padding="20dp"
+        android:background="#80ff8282"
+        >
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:src="@drawable/foodytext"
+            android:layout_gravity="center"
+            />
+        <EditText
+            android:id="@+id/quen_mat_khau_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/background_button"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"
+            android:hint="@string/email_can_khoi_phuc"
+            android:paddingLeft="20dp"
+            android:drawableLeft="@drawable/ic_email"
+            android:drawablePadding="10dp"
+            />
+        <Button
+            android:id="@+id/quen_mat_khau_button"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/background_button"
+            android:text="@string/quen_mat_khau_button"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            />
+    </LinearLayout>
+</RelativeLayout>
+

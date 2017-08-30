@@ -196,7 +196,7 @@ public class DangNhapActivity extends AppCompatActivity implements GoogleApiClie
                 }
                 break;
             case R.id.dang_nhap_quen_mat_khau_text_view:
-                
+                startActivity(QuenMatKhauActivity.newIntent(this));
                 break;
             case R.id.dang_nhap_dang_ky_text_view:
                 startActivity(DangKyActivity.newIntent(this));

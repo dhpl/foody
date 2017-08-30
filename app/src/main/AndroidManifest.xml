@@ -28,6 +28,8 @@
         </activity>
         <activity android:name=".controller.DangKyActivity">
         </activity>
+        <activity android:name=".controller.QuenMatKhauActivity">
+        </activity>
     </application>
 
 </manifest>

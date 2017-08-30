@@ -8,4 +8,6 @@
     <string name="quen_mat_khau">Quên mật khẩu</string>
     <string name="dang_ky_button">Đăng ký</string>
     <string name="nhap_lai_mat_khau">Nhập lại mật khẩu</string>
+    <string name="quen_mat_khau_button">Gửi</string>
+    <string name="email_can_khoi_phuc">Email cần khôi phục</string>
 </resources>
