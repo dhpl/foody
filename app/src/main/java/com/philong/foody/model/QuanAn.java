@@ -1,5 +1,7 @@
 package com.philong.foody.model;
 
+import android.location.Location;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,6 +27,7 @@ public class QuanAn {
     private List<String> tienich;
     private List<String> hinhanhquanan;
     private List<BinhLuan> binhluan;
+    private List<ChiNhanh> chinhanh;
     private DanhSachQuanAn mDanhSachQuanAn;
     private DatabaseReference mDatabaseReference;
 
@@ -113,7 +116,15 @@ public class QuanAn {
         this.binhluan = binhluan;
     }
 
-    public void getDanhSachQuanAn(final DanhSachQuanAn danhSachQuanAn){
+    public List<ChiNhanh> getChinhanh() {
+        return chinhanh;
+    }
+
+    public void setChinhanh(List<ChiNhanh> chinhanh) {
+        this.chinhanh = chinhanh;
+    }
+
+    public void getDanhSachQuanAn(final DanhSachQuanAn danhSachQuanAn, final Location locationCurrent){
         mDanhSachQuanAn = danhSachQuanAn;
         final List<QuanAn> quanAnList = new ArrayList<>();
 
@@ -150,6 +161,20 @@ public class QuanAn {
                         binhLuanList.add(binhLuan);
                     }
                     quanAn.setBinhluan(binhLuanList);
+                    //Get chi nhanh quan an
+                    List<ChiNhanh> chiNhanhList = new ArrayList<ChiNhanh>();
+                    DataSnapshot dataSnapshotChiNhanh = dataSnapshot.child("chinhanhquanans").child(quanAn.getMaquanan());
+                    for(DataSnapshot valueChiNhanhQuanAn : dataSnapshotChiNhanh.getChildren()){
+                        ChiNhanh chiNhanh = valueChiNhanhQuanAn.getValue(ChiNhanh.class);
+                        Location locationQuanAn = new Location("");
+                        locationQuanAn.setLatitude(chiNhanh.getLatitude());
+                        locationQuanAn.setLongitude(chiNhanh.getLongitude());
+                        double khoangCach = locationCurrent.distanceTo(locationQuanAn) / 1000;
+                        System.out.println("Khoang cach: " + khoangCach);
+                        chiNhanh.setKhoangcach(Math.abs(khoangCach));
+                        chiNhanhList.add(chiNhanh);
+                    }
+                    quanAn.setChinhanh(chiNhanhList);
                     quanAnList.add(quanAn);
                 }
                 mDanhSachQuanAn.completeDanhSachQuanAn(quanAnList);

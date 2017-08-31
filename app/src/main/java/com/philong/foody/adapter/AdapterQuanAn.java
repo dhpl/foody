@@ -17,6 +17,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.philong.foody.R;
 import com.philong.foody.model.BinhLuan;
+import com.philong.foody.model.ChiNhanh;
 import com.philong.foody.model.QuanAn;
 
 import java.text.DecimalFormat;
@@ -151,7 +152,20 @@ public class AdapterQuanAn extends RecyclerView.Adapter<AdapterQuanAn.ViewHolder
             }else{
                 mDiemTextView.setText("0");
             }
+            //Set dia chi, khoang cach gần nhất
+            if(quanAn.getChinhanh().size() > 0){
+                ChiNhanh chiNhanhTemp = quanAn.getChinhanh().get(0);
+                for(int i = 1; i < quanAn.getChinhanh().size(); i++){
+                    if(chiNhanhTemp.getKhoangcach() > quanAn.getChinhanh().get(i).getKhoangcach()){
+                        chiNhanhTemp = quanAn.getChinhanh().get(i);
+                    }
+                }
+                mDiaChiQuanAnTextView.setText(chiNhanhTemp.getDiachi());
+                mSoKMTextView.setText(String.valueOf(numberFormat.format(chiNhanhTemp.getKhoangcach())) + " Km");
+            }
         }
+
+
 
         public void setImageView(StorageReference storageReference, final ImageView imageView){
             final long ONE_MEGABYTE = 1024 * 1024;

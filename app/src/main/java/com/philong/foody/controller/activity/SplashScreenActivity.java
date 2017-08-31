@@ -99,8 +99,6 @@ public class SplashScreenActivity extends AppCompatActivity implements GoogleApi
             if(checkPermissionLocation()){
                 if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
                     Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-                    System.out.println("Latitude: " + location.getLatitude());
-                    System.out.println("Longitude: " + location.getLongitude());
                     mEditor.putString("Latitude", String.valueOf(location.getLatitude()));
                     mEditor.putString("Longitude", String.valueOf(location.getLongitude()));
                     mEditor.commit();

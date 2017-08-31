@@ -1,5 +1,8 @@
 package com.philong.foody.controller.fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -36,6 +39,8 @@ public class FragmentODau extends Fragment {
 
     private ProgressBar mProgressBar;
 
+    private SharedPreferences mSharedPreferences;
+
     public static FragmentODau newInstance() {
         Bundle args = new Bundle();
         FragmentODau fragment = new FragmentODau();
@@ -48,6 +53,13 @@ public class FragmentODau extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_o_dau, container, false);
+        //Get sharepreferences
+        mSharedPreferences = getActivity().getSharedPreferences("Location", Context.MODE_PRIVATE);
+        double latitude = Double.parseDouble(mSharedPreferences.getString("Latitude", ""));
+        double longitude = Double.parseDouble(mSharedPreferences.getString("Longitude", ""));
+        Location location = new Location("");
+        location.setLatitude(latitude);
+        location.setLongitude(longitude);
         //Get view
         mProgressBar = (ProgressBar)view.findViewById(R.id.o_dau_progrss_bar);
         mRadioMoiNhat = (RadioButton)view.findViewById(R.id.o_dau_moi_nhat_radio);
@@ -68,7 +80,7 @@ public class FragmentODau extends Fragment {
                 mRecyclerView.setAdapter(mAdapterQuanAn);
                 mProgressBar.setVisibility(View.GONE);
             }
-        });
+        }, location);
         return view;
     }
 }
