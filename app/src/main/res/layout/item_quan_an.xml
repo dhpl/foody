@@ -78,7 +78,7 @@
             android:id="@+id/item_quan_an_hinh_image_view"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:src="@drawable/hinh_1"
+            android:src="@drawable/ic_broken_image"
             android:scaleType="centerCrop"
             />
         <Button
@@ -96,6 +96,7 @@
             android:drawablePadding="5dp"
             />
         <LinearLayout
+            android:id="@+id/item_quan_an_binh_luan_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -146,6 +147,7 @@
                 />
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/item_quan_an_binh_luan_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -201,6 +203,7 @@
             android:orientation="horizontal"
             android:gravity="center"
             android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
             >
             <ImageView
                 android:layout_width="24dp"

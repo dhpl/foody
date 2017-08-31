@@ -143,6 +143,15 @@
                     android:drawableLeft="@drawable/gameandfun"
                     />
             </LinearLayout>
+            <ProgressBar
+                android:id="@+id/o_dau_progrss_bar"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:visibility="visible"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                />
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/o_dau_recycler_view"
                 android:layout_width="match_parent"

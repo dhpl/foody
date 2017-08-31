@@ -11,6 +11,8 @@ public class ThanhVien {
 
     private String hinhanh;
     private String hoten;
+    private String mathanhvien;
+
     private DatabaseReference mDatabaseReference;
 
     public ThanhVien() {
@@ -31,6 +33,14 @@ public class ThanhVien {
 
     public void setHoten(String hoten) {
         this.hoten = hoten;
+    }
+
+    public String getMathanhvien() {
+        return mathanhvien;
+    }
+
+    public void setMathanhvien(String mathanhvien) {
+        this.mathanhvien = mathanhvien;
     }
 
     public void themThanhVien(ThanhVien thanhVien, String uid){

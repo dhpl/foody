@@ -9,16 +9,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.philong.foody.R;
+import com.philong.foody.model.BinhLuan;
 import com.philong.foody.model.QuanAn;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
-import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -65,12 +68,14 @@ public class AdapterQuanAn extends RecyclerView.Adapter<AdapterQuanAn.ViewHolder
         public TextView mTenUserFirstTextView;
         public TextView mBinhLuanUserFirstTextView;
         public TextView mDiemUserFirstTextView;
-        public CircleImageView mAvatarUserSecondsTextView;
+        public CircleImageView mAvatarUserSeconds;
         public TextView mTenUserSecondsTextView;
         public TextView mBinhLuanUserSecondsTextView;
         public TextView mDiemUserSecondsTextView;
         public TextView mSoLuongBinhLuanTextView;
         public TextView mSoLuongHinhTextView;
+        public LinearLayout mBinhLuanFirst;
+        public LinearLayout mBinhLuanSeconds;
 
         public ViewHolderQuanAn(View itemView) {
             super(itemView);
@@ -84,12 +89,14 @@ public class AdapterQuanAn extends RecyclerView.Adapter<AdapterQuanAn.ViewHolder
             mTenUserFirstTextView = (TextView)itemView.findViewById(R.id.item_quan_an_ten_user_1);
             mBinhLuanUserFirstTextView = (TextView)itemView.findViewById(R.id.item_quan_binh_luan_user_1);
             mDiemUserFirstTextView = (TextView)itemView.findViewById(R.id.item_quan_an_diem_user_1);
-            mAvatarUserSecondsTextView = (CircleImageView)itemView.findViewById(R.id.item_quan_an_use_1);
-            mTenUserSecondsTextView = (TextView)itemView.findViewById(R.id.item_quan_an_ten_user_1);
-            mBinhLuanUserSecondsTextView = (TextView)itemView.findViewById(R.id.item_quan_binh_luan_user_1);
-            mDiemUserSecondsTextView = (TextView)itemView.findViewById(R.id.item_quan_an_diem_user_1);
+            mAvatarUserSeconds = (CircleImageView)itemView.findViewById(R.id.item_quan_an_user_2);
+            mTenUserSecondsTextView = (TextView)itemView.findViewById(R.id.item_quan_an_ten_user_2);
+            mBinhLuanUserSecondsTextView = (TextView)itemView.findViewById(R.id.item_quan_an_binh_luan_user_2);
+            mDiemUserSecondsTextView = (TextView)itemView.findViewById(R.id.item_quan_an_diem_user_2);
             mSoLuongBinhLuanTextView = (TextView)itemView.findViewById(R.id.item_quan_an_so_luong_binh_luan);
             mSoLuongHinhTextView = (TextView)itemView.findViewById(R.id.item_quan_an_so_luong_hinh);
+            mBinhLuanFirst = (LinearLayout)itemView.findViewById(R.id.item_quan_an_binh_luan_1);
+            mBinhLuanSeconds = (LinearLayout)itemView.findViewById(R.id.item_quan_an_binh_luan_2);
         }
 
         public void bind(QuanAn quanAn){
@@ -99,20 +106,65 @@ public class AdapterQuanAn extends RecyclerView.Adapter<AdapterQuanAn.ViewHolder
             }else{
                 mDatMonButton.setVisibility(View.GONE);
             }
+            //Set quán ăn
             if(quanAn.getHinhanhquanan().size() > 0){
-                String hinhAnh = quanAn.getHinhanhquanan().get(new Random().nextInt(quanAn.getHinhanhquanan().size()));
+                String hinhAnh = quanAn.getHinhanhquanan().get(0);
                 StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(hinhAnh);
-                final long ONE_MEGABYTE = 1024 * 1024;
-                storageReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                    @Override
-                    public void onSuccess(byte[] bytes) {
-                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                        mHinhMonAnImageView.setImageBitmap(bitmap);
-                    }
-                });
-
+                setImageView(storageReference, mHinhMonAnImageView);
+            }
+            //Set bình luận
+            if(quanAn.getBinhluan().size() > 0){
+                //Bình Luận User 1
+                BinhLuan binhLuanUser1 = quanAn.getBinhluan().get(0);
+                mTenUserFirstTextView.setText(binhLuanUser1.getTieude());
+                mBinhLuanUserFirstTextView.setText(binhLuanUser1.getNoidung());
+                mDiemUserFirstTextView.setText(String.valueOf(binhLuanUser1.getChamdiem()));
+//                StorageReference storageReferenceFirst = FirebaseStorage.getInstance().getReference().child("thanhviens").child(binhLuanUser1.getThanhvien().getHinhanh());
+//                setImageView(storageReferenceFirst, mAvatarUserFirst);
+                if(quanAn.getBinhluan().size() > 2){
+                    //Bình luận user 2
+                    BinhLuan binhLuanUser2 = quanAn.getBinhluan().get(1);
+                    mTenUserSecondsTextView.setText(binhLuanUser2.getTieude());
+                    mBinhLuanUserSecondsTextView.setText(binhLuanUser2.getNoidung());
+                    mDiemUserSecondsTextView.setText(String.valueOf(binhLuanUser2.getChamdiem()));
+//                    StorageReference storageReferenceSeconds = FirebaseStorage.getInstance().getReference().child("thanhviens").child(binhLuanUser2.getThanhvien().getHinhanh());
+//                    setImageView(storageReferenceSeconds, mAvatarUserSeconds);
+                }
+            }else{
+                mBinhLuanFirst.setVisibility(View.GONE);
+                mBinhLuanSeconds.setVisibility(View.GONE);
+            }
+            //Tong binh luan va hinh anh cua quan an
+            mSoLuongBinhLuanTextView.setText(String.valueOf(quanAn.getBinhluan().size()));
+            int tongSoHinhBinhLuan = 0;
+            double tongDiem = 0.0;
+            double diemTrungBinhQuanAn = 0.0;
+            for(BinhLuan binhLuan : quanAn.getBinhluan()){
+                tongSoHinhBinhLuan += binhLuan.getHinhanhbinhluans().size();
+                tongDiem += binhLuan.getChamdiem();
+            }
+            NumberFormat numberFormat = new DecimalFormat("#.##");
+            mSoLuongHinhTextView.setText(String.valueOf(tongSoHinhBinhLuan));
+            diemTrungBinhQuanAn = (tongDiem) / quanAn.getBinhluan().size();
+            if(diemTrungBinhQuanAn > 0){
+                mDiemTextView.setText(String.valueOf(numberFormat.format(diemTrungBinhQuanAn)));
+            }else{
+                mDiemTextView.setText("0");
             }
         }
+
+        public void setImageView(StorageReference storageReference, final ImageView imageView){
+            final long ONE_MEGABYTE = 1024 * 1024;
+            storageReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                @Override
+                public void onSuccess(byte[] bytes) {
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                    imageView.setImageBitmap(bitmap);
+                }
+            });
+        }
+
+
     }
 
 }

@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 
 import com.philong.foody.R;
@@ -33,6 +34,8 @@ public class FragmentODau extends Fragment {
     private RadioButton mRadioDanhMuc;
     private RadioButton mRadioKhuVuc;
 
+    private ProgressBar mProgressBar;
+
     public static FragmentODau newInstance() {
         Bundle args = new Bundle();
         FragmentODau fragment = new FragmentODau();
@@ -45,11 +48,15 @@ public class FragmentODau extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_o_dau, container, false);
+        //Get view
+        mProgressBar = (ProgressBar)view.findViewById(R.id.o_dau_progrss_bar);
         mRadioMoiNhat = (RadioButton)view.findViewById(R.id.o_dau_moi_nhat_radio);
         mRadioDanhMuc = (RadioButton)view.findViewById(R.id.o_dau_danh_muc_radio);
         mRadioKhuVuc = (RadioButton)view.findViewById(R.id.o_dau_khu_vuc_radio);
         mRecyclerView = (RecyclerView)view.findViewById(R.id.o_dau_recycler_view);
         mRadioMoiNhat.setChecked(true);
+        //Set progress bar
+        //Set recyclerview
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setNestedScrollingEnabled(false);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -59,7 +66,7 @@ public class FragmentODau extends Fragment {
             public void completeDanhSachQuanAn(List<QuanAn> quanAnList) {
                 mAdapterQuanAn = new AdapterQuanAn(quanAnList, getActivity());
                 mRecyclerView.setAdapter(mAdapterQuanAn);
-
+                mProgressBar.setVisibility(View.GONE);
             }
         });
         return view;
