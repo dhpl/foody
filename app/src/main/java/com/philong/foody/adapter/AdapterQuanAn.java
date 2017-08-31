@@ -3,6 +3,7 @@ package com.philong.foody.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.philong.foody.R;
+import com.philong.foody.controller.activity.ChiTietQuanAnActivity;
 import com.philong.foody.model.BinhLuan;
 import com.philong.foody.model.ChiNhanh;
 import com.philong.foody.model.QuanAn;
@@ -48,8 +50,14 @@ public class AdapterQuanAn extends RecyclerView.Adapter<AdapterQuanAn.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolderQuanAn holder, int position) {
-        QuanAn quanAn = mQuanAnList.get(position);
+        final QuanAn quanAn = mQuanAnList.get(position);
         holder.bind(quanAn);
+        holder.mCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mContext.startActivity(ChiTietQuanAnActivity.newIntent(mContext, quanAn));
+            }
+        });
     }
 
     @Override
@@ -77,6 +85,7 @@ public class AdapterQuanAn extends RecyclerView.Adapter<AdapterQuanAn.ViewHolder
         public TextView mSoLuongHinhTextView;
         public LinearLayout mBinhLuanFirst;
         public LinearLayout mBinhLuanSeconds;
+        public CardView mCardView;
 
         public ViewHolderQuanAn(View itemView) {
             super(itemView);
@@ -98,6 +107,7 @@ public class AdapterQuanAn extends RecyclerView.Adapter<AdapterQuanAn.ViewHolder
             mSoLuongHinhTextView = (TextView)itemView.findViewById(R.id.item_quan_an_so_luong_hinh);
             mBinhLuanFirst = (LinearLayout)itemView.findViewById(R.id.item_quan_an_binh_luan_1);
             mBinhLuanSeconds = (LinearLayout)itemView.findViewById(R.id.item_quan_an_binh_luan_2);
+            mCardView = (CardView)itemView.findViewById(R.id.item_quan_an_card_view);
         }
 
         public void bind(QuanAn quanAn){

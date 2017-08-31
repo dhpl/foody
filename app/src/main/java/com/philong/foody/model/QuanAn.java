@@ -1,6 +1,8 @@
 package com.philong.foody.model;
 
 import android.location.Location;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -15,7 +17,7 @@ import java.util.List;
  * Created by Long on 8/30/2017.
  */
 
-public class QuanAn {
+public class QuanAn implements Parcelable{
 
     private boolean giaohang;
     private String giodongcua;
@@ -35,6 +37,33 @@ public class QuanAn {
     public QuanAn() {
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
     }
+
+
+    protected QuanAn(Parcel in) {
+        giaohang = in.readByte() != 0;
+        giodongcua = in.readString();
+        giomocua = in.readString();
+        tenquanan = in.readString();
+        maquanan = in.readString();
+        videogioithieu = in.readString();
+        luotthich = in.readLong();
+        tienich = in.createStringArrayList();
+        hinhanhquanan = in.createStringArrayList();
+        binhluan = in.createTypedArrayList(BinhLuan.CREATOR);
+        chinhanh = in.createTypedArrayList(ChiNhanh.CREATOR);
+    }
+
+    public static final Creator<QuanAn> CREATOR = new Creator<QuanAn>() {
+        @Override
+        public QuanAn createFromParcel(Parcel in) {
+            return new QuanAn(in);
+        }
+
+        @Override
+        public QuanAn[] newArray(int size) {
+            return new QuanAn[size];
+        }
+    };
 
     public boolean isGiaohang() {
         return giaohang;
@@ -186,6 +215,27 @@ public class QuanAn {
             }
         });
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeByte((byte) (giaohang ? 1 : 0));
+        parcel.writeString(giodongcua);
+        parcel.writeString(giomocua);
+        parcel.writeString(tenquanan);
+        parcel.writeString(maquanan);
+        parcel.writeString(videogioithieu);
+        parcel.writeLong(luotthich);
+        parcel.writeStringList(tienich);
+        parcel.writeStringList(hinhanhquanan);
+        parcel.writeTypedList(binhluan);
+        parcel.writeTypedList(chinhanh);
+    }
+
 
     public interface DanhSachQuanAn{
         void completeDanhSachQuanAn(List<QuanAn> quanAnList);
