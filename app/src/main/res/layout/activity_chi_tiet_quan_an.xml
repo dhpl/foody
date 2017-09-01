@@ -289,11 +289,40 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 />
-            <fragment
-                android:name="com.google.android.gms.maps.MapFragment"
-                android:id="@+id/map"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                >
+                <fragment
+                    android:name="com.google.android.gms.maps.MapFragment"
+                    android:id="@+id/map"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    />
+            </FrameLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@android:color/background_dark"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tiện ích"
+                android:textSize="15sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:textColor="@android:color/black"
+                />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/chi_tiet_quan_an_tien_ich_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 />
             <View
                 android:layout_width="match_parent"

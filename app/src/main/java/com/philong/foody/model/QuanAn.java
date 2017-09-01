@@ -153,10 +153,11 @@ public class QuanAn implements Parcelable{
         this.chinhanh = chinhanh;
     }
 
+
+
     public void getDanhSachQuanAn(final DanhSachQuanAn danhSachQuanAn, final Location locationCurrent){
         mDanhSachQuanAn = danhSachQuanAn;
         final List<QuanAn> quanAnList = new ArrayList<>();
-
         mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -199,7 +200,6 @@ public class QuanAn implements Parcelable{
                         locationQuanAn.setLatitude(chiNhanh.getLatitude());
                         locationQuanAn.setLongitude(chiNhanh.getLongitude());
                         double khoangCach = locationCurrent.distanceTo(locationQuanAn) / 1000;
-                        System.out.println("Khoang cach: " + khoangCach);
                         chiNhanh.setKhoangcach(Math.abs(khoangCach));
                         chiNhanhList.add(chiNhanh);
                     }
@@ -223,6 +223,7 @@ public class QuanAn implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+
         parcel.writeByte((byte) (giaohang ? 1 : 0));
         parcel.writeString(giodongcua);
         parcel.writeString(giomocua);

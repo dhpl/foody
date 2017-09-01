@@ -2,10 +2,8 @@ package com.philong.foody.controller.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
@@ -28,8 +26,12 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.philong.foody.R;
 import com.philong.foody.adapter.AdapterBinhLuan;
+import com.philong.foody.adapter.AdapterTienIch;
 import com.philong.foody.model.BinhLuan;
 import com.philong.foody.model.QuanAn;
+import com.philong.foody.model.TienIch;
+import com.philong.foody.util.DanhSachTienIch;
+import com.philong.foody.util.TaiDanhSachTienIch;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -53,18 +55,21 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
     private TextView mLuuLaiTextView;
     private TextView mChiaSeTextView;
     private TextView mToolbarTextView;
-    private RecyclerView mRecyclerViewBinhLuan;
     private NestedScrollView mNestedScrollView;
     private GoogleMap mGoogleMap;
-    private SharedPreferences mSharedPreferences;
-    private Location mLocation;
     private QuanAn mQuanAn;
     private MapFragment mMapFragment;
 
 
     //Adapter binh luan
+    private RecyclerView mRecyclerViewBinhLuan;
     private List<BinhLuan> mBinhLuanList;
     private AdapterBinhLuan mAdapterBinhLuan;
+    //Adapter tien ich
+    private RecyclerView mRecyclerViewTienIch;
+    private List<TienIch> mTienIchList;
+    private AdapterTienIch mAdapterTienIch;
+
 
     public static Intent newIntent(Context context, QuanAn quanAn){
         Intent intent = new Intent(context, ChiTietQuanAnActivity.class);
@@ -95,6 +100,7 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
         mBinhLuanTextView = (TextView)findViewById(R.id.chi_tiet_quan_an_binh_luan_text_view);
         mLuuLaiTextView = (TextView)findViewById(R.id.chi_tiet_quan_an_luu_lai_text_view);
         mChiaSeTextView = (TextView)findViewById(R.id.chi_tiet_quan_an_chia_se_text_view);
+        mRecyclerViewTienIch = (RecyclerView)findViewById(R.id.chi_tiet_quan_an_tien_ich_recycler_view);
         mRecyclerViewBinhLuan = (RecyclerView)findViewById(R.id.chi_tiet_quan_an_binh_luan_recycler_view);
         mNestedScrollView = (NestedScrollView)findViewById(R.id.chi_tiet_quan_an_nest_scroll_view);
         mNestedScrollView.smoothScrollTo(0, 0);
@@ -127,15 +133,31 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+            //Set recycler view binh luan
+            mRecyclerViewBinhLuan.setItemAnimator(new DefaultItemAnimator());
+            mRecyclerViewBinhLuan.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+            mRecyclerViewBinhLuan.setNestedScrollingEnabled(false);
+            mBinhLuanList = new ArrayList<>();
+            mBinhLuanList = mQuanAn.getBinhluan();
+            mAdapterBinhLuan = new AdapterBinhLuan(mBinhLuanList, this);
+            mRecyclerViewBinhLuan.setAdapter(mAdapterBinhLuan);
+            //Get tien ich, Set recycler view tien ich
+            mTienIchList = new ArrayList<>();
+            mRecyclerViewTienIch.setItemAnimator(new DefaultItemAnimator());
+            mRecyclerViewTienIch.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+            mRecyclerViewTienIch.setNestedScrollingEnabled(false);
+            mAdapterTienIch = new AdapterTienIch(mTienIchList, ChiTietQuanAnActivity.this);
+            mRecyclerViewTienIch.setAdapter(mAdapterTienIch);
+            new TaiDanhSachTienIch().getDanhSachTienIch(mQuanAn, new DanhSachTienIch() {
+                @Override
+                public void compleTeDanhSachTienIch(TienIch tienIch) {
+                      if(tienIch != null){
+                          mTienIchList.add(tienIch);
+                          mAdapterTienIch.notifyDataSetChanged();
+                      }
+                }
+            });
         }
-        //Set recycler view binh luan
-        mRecyclerViewBinhLuan.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerViewBinhLuan.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        mRecyclerViewBinhLuan.setNestedScrollingEnabled(false);
-        mBinhLuanList = new ArrayList<>();
-        mBinhLuanList = mQuanAn.getBinhluan();
-        mAdapterBinhLuan = new AdapterBinhLuan(mBinhLuanList, this);
-        mRecyclerViewBinhLuan.setAdapter(mAdapterBinhLuan);
 
         //Set map
         mMapFragment = (MapFragment)getFragmentManager().findFragmentById(R.id.map);
