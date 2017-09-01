@@ -2,8 +2,10 @@ package com.philong.foody.controller.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +16,13 @@ import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -29,7 +38,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class ChiTietQuanAnActivity extends AppCompatActivity {
+
+public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapReadyCallback{
 
     private Toolbar mToolbar;
     private ImageView mHinhAnhImageView;
@@ -45,7 +55,11 @@ public class ChiTietQuanAnActivity extends AppCompatActivity {
     private TextView mToolbarTextView;
     private RecyclerView mRecyclerViewBinhLuan;
     private NestedScrollView mNestedScrollView;
+    private GoogleMap mGoogleMap;
+    private SharedPreferences mSharedPreferences;
+    private Location mLocation;
     private QuanAn mQuanAn;
+    private MapFragment mMapFragment;
 
 
     //Adapter binh luan
@@ -122,6 +136,10 @@ public class ChiTietQuanAnActivity extends AppCompatActivity {
         mBinhLuanList = mQuanAn.getBinhluan();
         mAdapterBinhLuan = new AdapterBinhLuan(mBinhLuanList, this);
         mRecyclerViewBinhLuan.setAdapter(mAdapterBinhLuan);
+
+        //Set map
+        mMapFragment = (MapFragment)getFragmentManager().findFragmentById(R.id.map);
+        mMapFragment.getMapAsync(this);
     }
 
 
@@ -141,4 +159,20 @@ public class ChiTietQuanAnActivity extends AppCompatActivity {
         onBackPressed();
         return true;
     }
+
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mGoogleMap = googleMap;
+        double lat = mQuanAn.getChinhanh().get(0).getLatitude();
+        double lng = mQuanAn.getChinhanh().get(0).getLongitude();
+        LatLng quanAnPoint = new LatLng(lat, lng);
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(quanAnPoint);
+        markerOptions.title(mQuanAn.getTenquanan());
+        mGoogleMap.addMarker(markerOptions);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(quanAnPoint, 14);
+        mGoogleMap.animateCamera(cameraUpdate);
+    }
+
 }

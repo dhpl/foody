@@ -82,6 +82,7 @@ public class FragmentODau extends Fragment {
                 mProgressBar.setVisibility(View.GONE);
             }
         }, location);
+
         return view;
     }
 
