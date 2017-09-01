@@ -151,10 +151,8 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
             new TaiDanhSachTienIch().getDanhSachTienIch(mQuanAn, new DanhSachTienIch() {
                 @Override
                 public void compleTeDanhSachTienIch(TienIch tienIch) {
-                      if(tienIch != null){
-                          mTienIchList.add(tienIch);
-                          mAdapterTienIch.notifyDataSetChanged();
-                      }
+                    mTienIchList.add(tienIch);
+                    mAdapterTienIch.notifyItemInserted(0);
                 }
             });
         }

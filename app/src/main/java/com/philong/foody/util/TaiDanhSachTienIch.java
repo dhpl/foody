@@ -8,6 +8,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.philong.foody.model.QuanAn;
 import com.philong.foody.model.TienIch;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Long on 9/1/2017.
  */
@@ -18,24 +21,29 @@ public class TaiDanhSachTienIch {
 
     public void getDanhSachTienIch(QuanAn quanAn, DanhSachTienIch danhSachTienIch){
         mProtocol = danhSachTienIch;
-        for(String maTienIch : quanAn.getTienich()){
-            if(maTienIch != null){
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("quanlytienichs").child(maTienIch);
-                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        TienIch tienIch = dataSnapshot.getValue(TienIch.class);
-                        if(tienIch != null){
-                            mProtocol.compleTeDanhSachTienIch(tienIch);
+        List<String> maTienIchList = new ArrayList<>();
+        maTienIchList = quanAn.getTienich();
+        if(maTienIchList != null){
+            for(String maTienIch : quanAn.getTienich()){
+                if(maTienIch != null){
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("quanlytienichs").child(maTienIch);
+                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            TienIch tienIch = dataSnapshot.getValue(TienIch.class);
+                            if(tienIch != null){
+                                mProtocol.compleTeDanhSachTienIch(tienIch);
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
 
-                    }
-                });
+                        }
+                    });
+                }
             }
+
         }
 
 
