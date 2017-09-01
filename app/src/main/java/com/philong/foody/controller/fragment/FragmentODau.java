@@ -73,6 +73,7 @@ public class FragmentODau extends Fragment {
         mRecyclerView.setNestedScrollingEnabled(false);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mQuanAn = new QuanAn();
+
         mQuanAn.getDanhSachQuanAn(new QuanAn.DanhSachQuanAn() {
             @Override
             public void completeDanhSachQuanAn(List<QuanAn> quanAnList) {
@@ -83,4 +84,5 @@ public class FragmentODau extends Fragment {
         }, location);
         return view;
     }
+
 }

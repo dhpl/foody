@@ -70,6 +70,7 @@
             />
     </LinearLayout>
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/chi_tiet_quan_an_nest_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
@@ -280,7 +281,19 @@
                     android:gravity="right"
                     />
             </LinearLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@android:color/background_dark"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/chi_tiet_quan_an_binh_luan_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
