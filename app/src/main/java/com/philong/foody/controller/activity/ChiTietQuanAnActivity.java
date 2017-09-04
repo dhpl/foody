@@ -11,6 +11,8 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -55,6 +57,7 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
     private TextView mLuuLaiTextView;
     private TextView mChiaSeTextView;
     private TextView mToolbarTextView;
+    private Button mBinhLuanButton;
     private NestedScrollView mNestedScrollView;
     private GoogleMap mGoogleMap;
     private QuanAn mQuanAn;
@@ -103,6 +106,7 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
         mRecyclerViewTienIch = (RecyclerView)findViewById(R.id.chi_tiet_quan_an_tien_ich_recycler_view);
         mRecyclerViewBinhLuan = (RecyclerView)findViewById(R.id.chi_tiet_quan_an_binh_luan_recycler_view);
         mNestedScrollView = (NestedScrollView)findViewById(R.id.chi_tiet_quan_an_nest_scroll_view);
+        mBinhLuanButton = (Button)findViewById(R.id.chi_tiet_quan_an_binh_luan_button);
         mNestedScrollView.smoothScrollTo(0, 0);
         //Get quan an from intent
         mToolbarTextView.setText("Foody");
@@ -156,6 +160,14 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
                     }
                     mTienIchList.add(tienIch);
                     mAdapterTienIch.notifyItemInserted(mTienIchList.size());
+                }
+            });
+            //Chuyen trang binh luan
+            mBinhLuanButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(BinhLuanActivity.newIntent(ChiTietQuanAnActivity.this, mQuanAn.getTenquanan()
+                            , mQuanAn.getChinhanh().get(0).getDiachi()));
                 }
             });
         }
