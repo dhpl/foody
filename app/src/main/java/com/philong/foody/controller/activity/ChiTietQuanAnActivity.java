@@ -151,8 +151,11 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
             new TaiDanhSachTienIch().getDanhSachTienIch(mQuanAn, new DanhSachTienIch() {
                 @Override
                 public void compleTeDanhSachTienIch(TienIch tienIch) {
+                    if(mTienIchList != null && mTienIchList.size() > 0){
+                        mTienIchList.clear();
+                    }
                     mTienIchList.add(tienIch);
-                    mAdapterTienIch.notifyItemInserted(0);
+                    mAdapterTienIch.notifyItemInserted(mTienIchList.size());
                 }
             });
         }
@@ -183,10 +186,19 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mGoogleMap = googleMap;
-        double lat = mQuanAn.getChinhanh().get(0).getLatitude();
-        double lng = mQuanAn.getChinhanh().get(0).getLongitude();
+        final double lat = mQuanAn.getChinhanh().get(0).getLatitude();
+        final double lng = mQuanAn.getChinhanh().get(0).getLongitude();
         LatLng quanAnPoint = new LatLng(lat, lng);
+        mGoogleMap = googleMap;
+        mGoogleMap.getUiSettings().setScrollGesturesEnabled(false);
+        mGoogleMap.getUiSettings().setRotateGesturesEnabled(false);
+        mGoogleMap.getUiSettings().setZoomGesturesEnabled(false);
+        mGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                startActivity(MapQuanAn.newIntent(ChiTietQuanAnActivity.this, lat, lng));
+            }
+        });
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(quanAnPoint);
         markerOptions.title(mQuanAn.getTenquanan());
