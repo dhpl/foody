@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
@@ -11,10 +12,13 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -62,6 +66,9 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
     private GoogleMap mGoogleMap;
     private QuanAn mQuanAn;
     private MapFragment mMapFragment;
+    private VideoView mVideoView;
+    private MediaController mMediaController;
+
 
 
     //Adapter binh luan
@@ -113,6 +120,7 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
         mNestedScrollView = (NestedScrollView)findViewById(R.id.chi_tiet_quan_an_nest_scroll_view);
         mBinhLuanButton = (Button)findViewById(R.id.chi_tiet_quan_an_binh_luan_button);
         mNestedScrollView.smoothScrollTo(0, 0);
+        mVideoView = (VideoView)findViewById(R.id.chi_tiet_quan_an_video_view);
         //Get quan an from intent
         mToolbarTextView.setText("Foody");
         if(getIntent() != null){
@@ -174,6 +182,25 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
                     startActivity(BinhLuanActivity.newIntent(ChiTietQuanAnActivity.this, mQuanAn));
                 }
             });
+            //set video view
+            if(mQuanAn.getVideogioithieu() != null && !TextUtils.isEmpty(mQuanAn.getVideogioithieu())){
+                mMediaController = new MediaController(this);
+                mMediaController.setAnchorView(mVideoView);
+                mVideoView.setMediaController(mMediaController);
+                mHinhAnhImageView.setVisibility(View.GONE);
+                mVideoView.setVisibility(View.VISIBLE);
+                FirebaseStorage.getInstance().getReference().child(mQuanAn.getVideogioithieu())
+                        .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        mVideoView.setVideoURI(uri);
+                        mVideoView.start();
+                    }
+                });
+            }else{
+                mHinhAnhImageView.setVisibility(View.VISIBLE);
+                mVideoView.setVisibility(View.GONE);
+            }
         }
 
         //Set map
