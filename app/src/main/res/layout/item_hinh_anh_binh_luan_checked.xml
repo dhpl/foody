@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    >
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+        <ImageView
+            android:id="@+id/item_hinh_anh_checked_image_view"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/ic_broken_image"
+            />
+        <ImageView
+            android:id="@+id/item_hinh_anh_checked_check_box"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="top|right"
+            android:src="@drawable/ic_delete"
+            android:layout_margin="10dp"
+            />
+    </FrameLayout>
+</LinearLayout>

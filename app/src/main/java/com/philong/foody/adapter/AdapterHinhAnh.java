@@ -14,6 +14,7 @@ import com.philong.foody.model.HinhAnh;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,10 +26,12 @@ public class AdapterHinhAnh extends RecyclerView.Adapter<AdapterHinhAnh.HinhAnhV
 
     private List<HinhAnh> mHinhAnhList;
     private Context mContext;
+    private ArrayList<HinhAnh> mHinhAnhChecked;
 
     public AdapterHinhAnh(List<HinhAnh> hinhAnhList, Context context) {
         mHinhAnhList = hinhAnhList;
         mContext = context;
+        mHinhAnhChecked = new ArrayList<>();
     }
 
     @Override
@@ -45,6 +48,11 @@ public class AdapterHinhAnh extends RecyclerView.Adapter<AdapterHinhAnh.HinhAnhV
             public void onClick(View view) {
                 hinhAnh.setChecked(!hinhAnh.isChecked());
                 holder.mCheckBox.setChecked(hinhAnh.isChecked());
+                if(hinhAnh.isChecked()){
+                    mHinhAnhChecked.add(hinhAnh);
+                }else{
+                    mHinhAnhChecked.remove(hinhAnh);
+                }
             }
         });
         holder.mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -53,6 +61,7 @@ public class AdapterHinhAnh extends RecyclerView.Adapter<AdapterHinhAnh.HinhAnhV
                 hinhAnh.setChecked(b);
             }
         });
+
         holder.bind(hinhAnh);
 
 
@@ -84,5 +93,13 @@ public class AdapterHinhAnh extends RecyclerView.Adapter<AdapterHinhAnh.HinhAnhV
                     .into(mHinhAnhImageView);
            mCheckBox.setChecked(hinhAnh.isChecked());
         }
+    }
+
+    public ArrayList<HinhAnh> getHinhAnhChecked() {
+        return mHinhAnhChecked;
+    }
+
+    public void setHinhAnhChecked(ArrayList<HinhAnh> hinhAnhChecked) {
+        mHinhAnhChecked = hinhAnhChecked;
     }
 }

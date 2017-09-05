@@ -16,7 +16,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
 
 import com.philong.foody.R;
 import com.philong.foody.adapter.AdapterHinhAnh;
@@ -25,9 +24,10 @@ import com.philong.foody.model.HinhAnh;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ThemHinhAnhActivity extends AppCompatActivity {
+public class ThemHinhAnhActivity extends AppCompatActivity{
 
     private static int REQUEST_PERMISSION_IMAGE = 99;
+
 
     private RecyclerView mThemHinhAnhRecyclerView;
     private List<HinhAnh> mHinhAnhList;
@@ -63,7 +63,10 @@ public class ThemHinhAnhActivity extends AppCompatActivity {
         mFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(ThemHinhAnhActivity.this, "HiHi", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                intent.putParcelableArrayListExtra("HinhAnhChecked", mAdapterHinhAnh.getHinhAnhChecked());
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
     }

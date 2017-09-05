@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     >
     <android.support.v7.widget.Toolbar
         android:id="@+id/binh_luan_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@android:color/holo_red_light"
+        android:layout_alignParentTop="true"
         >
         <ImageButton
             android:id="@+id/binh_luan_dang_image_button"
@@ -23,12 +23,14 @@
             />
     </android.support.v7.widget.Toolbar>
     <LinearLayout
+        android:id="@+id/ln1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:layout_below="@id/binh_luan_toolbar"
         >
         <TextView
             android:id="@+id/binh_luan_ten_quan_an_text_view"
@@ -47,6 +49,7 @@
             />
     </LinearLayout>
     <EditText
+        android:layout_below="@id/ln1"
         android:id="@+id/binh_luan_tieu_de_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -57,20 +60,30 @@
         android:layout_marginRight="10dp"
         />
     <EditText
+        android:layout_below="@id/binh_luan_tieu_de_edit_text"
         android:id="@+id/binh_luan_noi_dung_edit_text"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="150dp"
         android:hint="Bình luận"
         android:layout_margin="10dp"
         android:textSize="18sp"
         android:gravity="start"
         />
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@id/binh_luan_noi_dung_edit_text"
+        android:id="@+id/binh_luan_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginBottom="10dp"
+        android:layout_above="@+id/ln2"
+        />
     <LinearLayout
+        android:id="@+id/ln2"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@android:color/darker_gray"
         android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
         >
         <ImageButton
             android:id="@+id/binh_luan_them_hinh_image_button"
@@ -97,4 +110,4 @@
             android:background="@android:color/transparent"
             />
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>
