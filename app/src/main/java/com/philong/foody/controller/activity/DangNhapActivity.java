@@ -59,7 +59,6 @@ public class DangNhapActivity extends AppCompatActivity implements GoogleApiClie
 
     private FirebaseAuth mAuth;
     private GoogleApiClient mGoogleApiClient;
-
     //Facebook
     private CallbackManager mCallbackManager;
 
@@ -133,6 +132,7 @@ public class DangNhapActivity extends AppCompatActivity implements GoogleApiClie
         }
         signOutGoogle();
         signOutFacebook();
+
     }
 
     @Override
@@ -227,7 +227,6 @@ public class DangNhapActivity extends AppCompatActivity implements GoogleApiClie
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             FirebaseUser user = mAuth.getCurrentUser();
-
                         }else{
 
                         }

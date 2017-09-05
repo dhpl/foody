@@ -179,7 +179,7 @@ public class QuanAn implements Parcelable{
                         BinhLuan binhLuan = valueBinhLuan.getValue(BinhLuan.class);
                         binhLuan.setMabinhluan(valueBinhLuan.getKey());
                         //Get thanh vien
-                        ThanhVien thanhVien  = dataSnapshot.child("thanhviens").child(String.valueOf(binhLuan.getMauser())).getValue(ThanhVien.class);
+                        ThanhVien thanhVien  = dataSnapshot.child("thanhviens").child(binhLuan.getMauser()).getValue(ThanhVien.class);
                         binhLuan.setThanhvien(thanhVien);
                         //Get danh sach hinh anh binh luan
                         List<String> hinhAnhBinhLuanList = new ArrayList<String>();

@@ -47,6 +47,7 @@
                   android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".controller.activity.ThemHinhAnhActivity">
         </activity>
+        <service android:name=".controller.service.PushImage"/>
     </application>
 
 </manifest>

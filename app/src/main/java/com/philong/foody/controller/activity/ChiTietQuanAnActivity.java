@@ -80,6 +80,11 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
         return intent;
     }
 
+    public static Intent newIntent(Context context){
+        Intent intent = new Intent(context, ChiTietQuanAnActivity.class);
+        return intent;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -166,8 +171,7 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
             mBinhLuanButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivity(BinhLuanActivity.newIntent(ChiTietQuanAnActivity.this, mQuanAn.getTenquanan()
-                            , mQuanAn.getChinhanh().get(0).getDiachi()));
+                    startActivity(BinhLuanActivity.newIntent(ChiTietQuanAnActivity.this, mQuanAn));
                 }
             });
         }

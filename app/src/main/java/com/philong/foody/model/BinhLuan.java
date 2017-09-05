@@ -9,7 +9,7 @@ import java.util.List;
  * Created by Long on 8/31/2017.
  */
 
-public class BinhLuan implements Parcelable{
+public class BinhLuan implements Parcelable {
 
     private double chamdiem;
     private long luotthich;
@@ -17,11 +17,12 @@ public class BinhLuan implements Parcelable{
     private String noidung;
     private String tieude;
     private String mabinhluan;
-    private long mauser;
+    private String mauser;
     private List<String> hinhanhbinhluans;
 
     public BinhLuan() {
     }
+
 
     protected BinhLuan(Parcel in) {
         chamdiem = in.readDouble();
@@ -30,7 +31,7 @@ public class BinhLuan implements Parcelable{
         noidung = in.readString();
         tieude = in.readString();
         mabinhluan = in.readString();
-        mauser = in.readLong();
+        mauser = in.readString();
         hinhanhbinhluans = in.createStringArrayList();
     }
 
@@ -86,13 +87,7 @@ public class BinhLuan implements Parcelable{
         this.tieude = tieude;
     }
 
-    public long getMauser() {
-        return mauser;
-    }
 
-    public void setMauser(long mauser) {
-        this.mauser = mauser;
-    }
 
     public List<String> getHinhanhbinhluans() {
         return hinhanhbinhluans;
@@ -110,6 +105,14 @@ public class BinhLuan implements Parcelable{
         this.mabinhluan = mabinhluan;
     }
 
+    public String getMauser() {
+        return mauser;
+    }
+
+    public void setMauser(String mauser) {
+        this.mauser = mauser;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -123,7 +126,7 @@ public class BinhLuan implements Parcelable{
         parcel.writeString(noidung);
         parcel.writeString(tieude);
         parcel.writeString(mabinhluan);
-        parcel.writeLong(mauser);
+        parcel.writeString(mauser);
         parcel.writeStringList(hinhanhbinhluans);
     }
 }

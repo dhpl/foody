@@ -6,6 +6,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,14 +29,16 @@ import java.util.List;
 public class FragmentODau extends Fragment {
 
     private RecyclerView mRecyclerView;
-
+    private LinearLayoutManager mLinearLayoutManager;
     private QuanAn mQuanAn;
+    private Location location;
 
     private AdapterQuanAn mAdapterQuanAn;
 
     private RadioButton mRadioMoiNhat;
     private RadioButton mRadioDanhMuc;
     private RadioButton mRadioKhuVuc;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private ProgressBar mProgressBar;
 
@@ -57,7 +60,7 @@ public class FragmentODau extends Fragment {
         mSharedPreferences = getActivity().getSharedPreferences("Location", Context.MODE_PRIVATE);
         double latitude = Double.parseDouble(mSharedPreferences.getString("Latitude", ""));
         double longitude = Double.parseDouble(mSharedPreferences.getString("Longitude", ""));
-        Location location = new Location("");
+        location = new Location("");
         location.setLatitude(latitude);
         location.setLongitude(longitude);
         //Get view
@@ -66,12 +69,15 @@ public class FragmentODau extends Fragment {
         mRadioDanhMuc = (RadioButton)view.findViewById(R.id.o_dau_danh_muc_radio);
         mRadioKhuVuc = (RadioButton)view.findViewById(R.id.o_dau_khu_vuc_radio);
         mRecyclerView = (RecyclerView)view.findViewById(R.id.o_dau_recycler_view);
+        mSwipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.o_dau_swipe);
         mRadioMoiNhat.setChecked(true);
         //Set progress bar
         //Set recyclerview
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setNestedScrollingEnabled(false);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        mLinearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+        mRecyclerView.setOnScrollListener(mOnScrollListener);
         mQuanAn = new QuanAn();
 
         mQuanAn.getDanhSachQuanAn(new QuanAn.DanhSachQuanAn() {
@@ -83,7 +89,38 @@ public class FragmentODau extends Fragment {
             }
         }, location);
 
+
+
         return view;
     }
+
+    private RecyclerView.OnScrollListener mOnScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+        }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            int first = mLinearLayoutManager.findFirstVisibleItemPosition();
+            if(first == 0){
+                mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        mQuanAn.getDanhSachQuanAn(new QuanAn.DanhSachQuanAn() {
+                            @Override
+                            public void completeDanhSachQuanAn(List<QuanAn> quanAnList) {
+                                mAdapterQuanAn = new AdapterQuanAn(quanAnList, getActivity());
+                                mRecyclerView.setAdapter(mAdapterQuanAn);
+                                mProgressBar.setVisibility(View.GONE);
+                                mSwipeRefreshLayout.setRefreshing(false);
+                            }
+                        }, location);
+                    }
+                });
+            }
+        }
+    };
 
 }

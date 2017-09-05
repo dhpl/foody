@@ -1,8 +1,7 @@
 package com.philong.foody.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +10,8 @@ import android.widget.ImageView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.philong.foody.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -58,20 +57,18 @@ public class AdapterHinhBinhLuan extends RecyclerView.Adapter<AdapterHinhBinhLua
        }
 
        public void bind(String link){
-           StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(link);
-           setImageView(storageReference, mHinhBinhLuanImageView);
-       }
-
-       public void setImageView(StorageReference storageReference, final ImageView imageView){
-           final long ONE_MEGABYTE = 1024 * 1024;
-           storageReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+           FirebaseStorage.getInstance().getReference().child(link).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                @Override
-               public void onSuccess(byte[] bytes) {
-                   Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                   imageView.setImageBitmap(bitmap);
+               public void onSuccess(Uri uri) {
+                   Picasso.with(mContext)
+                           .load(uri)
+                           .fit()
+                           .centerCrop()
+                           .into(mHinhBinhLuanImageView);
                }
            });
        }
+
 
    }
 
