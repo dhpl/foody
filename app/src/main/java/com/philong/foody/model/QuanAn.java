@@ -30,6 +30,7 @@ public class QuanAn implements Parcelable{
     private List<String> hinhanhquanan;
     private List<BinhLuan> binhluan;
     private List<ChiNhanh> chinhanh;
+    private List<ThucDon> thucdon;
     private DanhSachQuanAn mDanhSachQuanAn;
     private DatabaseReference mDatabaseReference;
 
@@ -153,7 +154,13 @@ public class QuanAn implements Parcelable{
         this.chinhanh = chinhanh;
     }
 
+    public List<ThucDon> getThucdon() {
+        return thucdon;
+    }
 
+    public void setThucdon(List<ThucDon> thucdon) {
+        this.thucdon = thucdon;
+    }
 
     public void getDanhSachQuanAn(final DanhSachQuanAn danhSachQuanAn, final Location locationCurrent){
         mDanhSachQuanAn = danhSachQuanAn;

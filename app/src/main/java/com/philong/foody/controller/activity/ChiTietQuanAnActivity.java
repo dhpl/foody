@@ -32,9 +32,11 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.philong.foody.R;
 import com.philong.foody.adapter.AdapterBinhLuan;
+import com.philong.foody.adapter.AdapterThucDon;
 import com.philong.foody.adapter.AdapterTienIch;
 import com.philong.foody.model.BinhLuan;
 import com.philong.foody.model.QuanAn;
+import com.philong.foody.model.ThucDon;
 import com.philong.foody.model.TienIch;
 import com.philong.foody.util.DanhSachTienIch;
 import com.philong.foody.util.TaiDanhSachTienIch;
@@ -70,7 +72,9 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
     private MediaController mMediaController;
 
 
-
+    //Adapter thuc don
+    private RecyclerView mRecyclerViewThucDon;
+    private AdapterThucDon mAdapterThucDon;
     //Adapter binh luan
     private RecyclerView mRecyclerViewBinhLuan;
     private List<BinhLuan> mBinhLuanList;
@@ -201,6 +205,21 @@ public class ChiTietQuanAnActivity extends AppCompatActivity implements OnMapRea
                 mHinhAnhImageView.setVisibility(View.VISIBLE);
                 mVideoView.setVisibility(View.GONE);
             }
+            //Set thuc don
+            mRecyclerViewThucDon = (RecyclerView)findViewById(R.id.thuc_don_recycler_view);
+            mRecyclerViewThucDon.setItemAnimator(new DefaultItemAnimator());
+            mRecyclerViewThucDon.setNestedScrollingEnabled(false);
+            mRecyclerViewThucDon.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+            // Hien thi thuc don
+            ThucDon thucDon = new ThucDon();
+            thucDon.getDanhSachThucDonQuanAn(new ThucDon.ProtocolGetThucDon() {
+                @Override
+                public void completeGetThucDon(List<ThucDon> thucDons) {
+                    mAdapterThucDon = new AdapterThucDon(ChiTietQuanAnActivity.this, thucDons);
+                    mRecyclerViewThucDon.setAdapter(mAdapterThucDon);
+                    mAdapterThucDon.notifyDataSetChanged();
+                }
+            }, mQuanAn.getMaquanan());
         }
 
         //Set map

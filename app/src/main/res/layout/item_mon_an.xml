@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    >
+    <TextView
+        android:id="@+id/item_mon_an_text_view"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_height="wrap_content"
+        tools:text="Món ăn"
+        android:textSize="15sp"
+        android:layout_marginTop="5dp"
+        />
+   <LinearLayout
+       android:layout_width="0dp"
+       android:layout_weight="1"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal"
+       android:gravity="center"
+       >
+       <ImageView
+           android:id="@+id/item_mon_an_giam_image_view"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:src="@drawable/ic_remove"
+           android:layout_marginRight="10dp"
+           />
+       <TextView
+           android:id="@+id/item_mon_an_so_luong_text_view"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="0"
+           android:layout_marginRight="10dp"
+           />
+       <ImageView
+           android:id="@+id/item_mon_an_tan_image_view"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:src="@drawable/ic_add_black"
+           android:layout_marginRight="10dp"
+           />
+   </LinearLayout>
+</LinearLayout>
